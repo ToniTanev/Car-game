@@ -26062,7 +26062,7 @@ MonoBehaviour:
   maxTurnAngle: 30
   brakeForce: 100000
   maxSpeed: 100
-  speedMultiplier: 0.1
+  wheelRadius: 0.2
   is4x4: 1
   wheelZRot: 0
 --- !u!1 &4765702314173731990
@@ -27647,9 +27647,14 @@ MonoBehaviour:
   brakeForce: 10000
   maxSpeed: 140
   minSpeed: 80
-  speedMultiplier: 0.2
+  wheelRadius: 0.2
   is4x4: 1
   wheelZRot: 90
+  angleForBreak: 25
+  frontBreak: 0
+  maxDistanceForBreak: 100
+  distToChangeNode: 50
+  distanceNormalizationFactor: 1
   speedToBreakDistanceCurve:
     serializedVersion: 2
     m_Curve:
