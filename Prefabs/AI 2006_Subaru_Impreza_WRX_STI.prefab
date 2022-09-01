@@ -2613,7 +2613,7 @@ Transform:
   m_GameObject: {fileID: 8723517080921086057}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 870.58, y: 102.1, z: 710.79}
-  m_LocalScale: {x: 0.17, y: 0.17, z: 0.17}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 4372594857757242907}
   - {fileID: 1976741318466023351}
@@ -2670,11 +2670,14 @@ MonoBehaviour:
   brakeForce: 10000
   maxSpeed: 100
   minSpeed: 50
-  speedMultiplier: 0.2
+  wheelRadius: 0.2
   is4x4: 1
   wheelZRot: 0
   angleForBreak: 15
   frontBreak: 0
+  maxDistanceForBreak: 100
+  distToChangeNode: 50
+  distanceNormalizationFactor: 1
   speedToBreakDistanceCurve:
     serializedVersion: 2
     m_Curve:

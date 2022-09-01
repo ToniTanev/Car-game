@@ -2388,7 +2388,7 @@ Transform:
   m_GameObject: {fileID: 7960380156097371510}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 871.02454, y: 101.63773, z: 705.14166}
-  m_LocalScale: {x: 0.17, y: 0.17, z: 0.17}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 3154288684561068804}
   - {fileID: 866398404213418664}
@@ -2443,7 +2443,7 @@ MonoBehaviour:
   maxTurnAngle: 45
   brakeForce: 10000
   maxSpeed: 100
-  speedMultiplier: 0.2
+  wheelRadius: 0.2
   is4x4: 1
   wheelZRot: 0
 --- !u!1 &8596413081067304527

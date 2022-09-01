@@ -184,8 +184,8 @@ MonoBehaviour:
   motorForce: 250
   maxTurnAngle: 45
   brakeForce: 1000
-  maxSpeed: 100
-  speedMultiplier: 0.2
+  maxSpeed: 140
+  wheelRadius: 0.2
   is4x4: 1
   wheelZRot: 90
 --- !u!1 &892914689043786977

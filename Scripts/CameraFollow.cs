@@ -8,6 +8,34 @@ public class CameraFollow : MonoBehaviour
     public Transform lookTarget;
     public float smoothSpeed = 0.125f;
 
+    private void FindActiveCar()
+    {
+        GameObject[] cars = GameObject.FindGameObjectsWithTag("Car");
+
+        foreach (GameObject car in cars)
+        {
+            if (car.activeSelf)
+            {
+                foreach (Transform child in car.transform)
+                {
+                    if (child.name == "Camera target")
+                    {
+                        target = child;
+                    }
+                    else if (child.name == "Camera look target")
+                    {
+                        lookTarget = child;
+                    }
+                }
+            }
+        }
+    }
+
+    private void Start()
+    {
+        //FindActiveCar();
+    }
+
     private void FixedUpdate()
     {
         if (target)
@@ -24,6 +52,10 @@ public class CameraFollow : MonoBehaviour
             }
 
             //transform.rotation = Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, 0));
+        }
+        else
+        {
+            FindActiveCar();
         }
     }
 }
