@@ -1376,8 +1376,8 @@ GameObject:
   - component: {fileID: 5454773184566717034}
   - component: {fileID: 5454773184566717037}
   m_Layer: 0
-  m_Name: Wheel VFX (5)
-  m_TagString: Untagged
+  m_Name: Wheel VFX (1)
+  m_TagString: WheelVFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6459,8 +6459,8 @@ GameObject:
   - component: {fileID: 5454773185421907318}
   - component: {fileID: 5454773185421907321}
   m_Layer: 0
-  m_Name: Wheel VFX (4)
-  m_TagString: Untagged
+  m_Name: Wheel VFX
+  m_TagString: WheelVFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11638,8 +11638,8 @@ GameObject:
   - component: {fileID: 5454773186275458512}
   - component: {fileID: 5454773186275458515}
   m_Layer: 0
-  m_Name: Wheel VFX (7)
-  m_TagString: Untagged
+  m_Name: Wheel VFX (3)
+  m_TagString: WheelVFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16568,8 +16568,8 @@ GameObject:
   - component: {fileID: 5454773186290118314}
   - component: {fileID: 5454773186290118317}
   m_Layer: 0
-  m_Name: Wheel VFX (6)
-  m_TagString: Untagged
+  m_Name: Wheel VFX (2)
+  m_TagString: WheelVFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

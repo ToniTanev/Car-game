@@ -18,6 +18,8 @@ public class AIController : MonoBehaviour
     private WheelCollider rearLeftWheelCollider;
     private WheelCollider rearRightWheelCollider;
 
+    private List<GameObject> wheelsVFX = new List<GameObject>();
+
     private GameObject centerOfMassObj;
     private Vector3 prevPos;
 
@@ -26,6 +28,7 @@ public class AIController : MonoBehaviour
     public float brakeForce = 10000f;
     public float maxSpeed = 100;
     public float minSpeed = 80f;
+    public float minPosBasedSpeed = 15f;
     public float wheelRadius = 0.2f;  // 0.2 meters radius = ~16 inch diameter
     public bool is4x4 = true;
     public float wheelZRot = 0f;
@@ -33,7 +36,7 @@ public class AIController : MonoBehaviour
     public bool frontBreak = false;
     public float maxDistanceForBreak = 100f;
     public float distToChangeNode = 50f;
-    public float distanceNormalizationFactor = 1f;
+    public float distanceNormalizationFactor = 1f;  // for bigger scale cars
 
     public AnimationCurve speedToBreakDistanceCurve;    // [0, 1] -> [0, 1]
 
@@ -42,42 +45,13 @@ public class AIController : MonoBehaviour
         pathNodes = new List<Transform>();
 
         GameObject path = GameObject.FindGameObjectWithTag("Path");
-        foreach(Transform node in path.transform)
+
+        foreach (Transform node in path.transform)
         {
             pathNodes.Add(node);
         }
         
         return pathNodes;
-    }
-
-    private void UpdateWheelVisual(WheelCollider wheelCollider, Transform wheelTransform)
-    {
-        Vector3 pos;
-        Quaternion rot;
-        wheelCollider.GetWorldPose(out pos, out rot);
-
-        //wheelTransform.rotation = rot;
-
-        var localRot = (Quaternion.Inverse(wheelCollider.transform.parent.rotation) * Quaternion.Euler(rot.eulerAngles));
-
-        float xRot = localRot.eulerAngles.x;
-        float yRot = localRot.eulerAngles.y;
-        float zRot = wheelZRot;
-
-        if (yRot > 300 || yRot < 60)
-        {
-            yRot += 180;
-            xRot = 180 - xRot;
-        }
-
-        if (wheelCollider.name.Contains("left"))
-        {
-            zRot = -zRot;
-        }
-
-        //wheelTransform.rotation = Quaternion.Euler(rot.eulerAngles.x, rot.eulerAngles.y, zRot);
-
-        wheelTransform.localRotation = Quaternion.Euler(xRot, yRot, zRot);
     }
 
     // Start is called before the first frame update
@@ -132,6 +106,11 @@ public class AIController : MonoBehaviour
                         rearRightWheelCollider = child2.GetComponent<WheelCollider>();
                     }
                 }
+            }
+
+            if (child.tag == "WheelVFX")
+            {
+                wheelsVFX.Add(child.gameObject);
             }
 
             if (child.name == "Center of mass")
@@ -197,20 +176,15 @@ public class AIController : MonoBehaviour
         bool shouldBreak = false;
 
         //print(angle);
-
-        //float normalizedAngle = Mathf.Max(angle / 90, nextAngle / 90);
         
         float distToBreak = maxDistanceForBreak * speedToBreakDistanceCurve.Evaluate(speedKMH / maxSpeed);
         float currMinSpeed = minSpeed;
 
-        if(angle >= 45)
+        if (angle >= 45)
         {
             currMinSpeed = Mathf.Min(currMinSpeed, 30);
         }
 
-        //if ((angle > 20 || nextAngle > 20) && speedKMH > minSpeed && relativeVector2D.magnitude < ((speedKMH / 2) + (normalizedAngle * speedKMH / 2)))
-        //if ((angle > 20 || nextAngle > 20) && speedKMH > minSpeed && relativeVector2D.magnitude < speedKMH / 2)
-        //if ((angle > 20 || nextAngle > 20) && speedKMH > minSpeed && relativeVector2D.magnitude < distToBreak)
         if (angle > angleForBreak && speedKMH > currMinSpeed && relativeVector2D.magnitude < distToBreak)
         {
             shouldBreak = true;
@@ -222,11 +196,11 @@ public class AIController : MonoBehaviour
         }
 
         float dist = (transform.position - prevPos).magnitude;
-        prevPos = transform.position;
         float posBasedSpeed = dist / Time.fixedDeltaTime;
         //print(posBasedSpeed);
 
-        bool isMoving = posBasedSpeed > 15;
+        bool isMoving = posBasedSpeed > minPosBasedSpeed;
+
         if (!isMoving)
         {
             shouldBreak = false;
@@ -270,9 +244,19 @@ public class AIController : MonoBehaviour
             rearRightWheelCollider.motorTorque = 0;
         }
 
-        this.UpdateWheelVisual(frontLeftWheelCollider, frontLeftWheel.transform);
-        this.UpdateWheelVisual(frontRightWheelCollider, frontRightWheel.transform);
-        this.UpdateWheelVisual(rearLeftWheelCollider, rearLeftWheel.transform);
-        this.UpdateWheelVisual(rearRightWheelCollider, rearRightWheel.transform);
+        CarController.UpdateWheelVisual(frontLeftWheelCollider, frontLeftWheel.transform, wheelZRot);
+        CarController.UpdateWheelVisual(frontRightWheelCollider, frontRightWheel.transform, wheelZRot);
+        CarController.UpdateWheelVisual(rearLeftWheelCollider, rearLeftWheel.transform, wheelZRot);
+        CarController.UpdateWheelVisual(rearRightWheelCollider, rearRightWheel.transform, wheelZRot);
+
+        bool isCarOnGround = frontLeftWheelCollider.isGrounded && frontRightWheelCollider.isGrounded && rearLeftWheelCollider.isGrounded && rearRightWheelCollider.isGrounded;
+        bool isWheelVFXActive = isCarOnGround && (shouldBreak || CarController.IsDrifting(this.gameObject, prevPos));
+
+        foreach (GameObject wheelVFX in wheelsVFX)
+        {
+            CarController.SetWheelVFXActive(wheelVFX, isWheelVFXActive);
+        }
+
+        prevPos = transform.position;
     }
 }

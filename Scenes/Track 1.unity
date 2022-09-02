@@ -24599,7 +24599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2287296387362204492, guid: fd26a429a66cea3479941ae99c54f36b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5296499039713398244, guid: fd26a429a66cea3479941ae99c54f36b, type: 3}
       propertyPath: m_RootOrder
@@ -24893,6 +24893,10 @@ PrefabInstance:
     - target: {fileID: 8308284071788025177, guid: b202635d6a0a74a4696bccac407d2701, type: 3}
       propertyPath: m_Name
       value: Player Toyota_Corolla_AE86_Trueno
+      objectReference: {fileID: 0}
+    - target: {fileID: 8308284071788025177, guid: b202635d6a0a74a4696bccac407d2701, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b202635d6a0a74a4696bccac407d2701, type: 3}

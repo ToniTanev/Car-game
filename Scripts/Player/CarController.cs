@@ -14,6 +14,8 @@ public class CarController : MonoBehaviour
     private WheelCollider rearLeftWheelCollider;
     private WheelCollider rearRightWheelCollider;
 
+    private List<GameObject> wheelsVFX = new List<GameObject>();
+
     public float motorForce = 200f;
     public float maxTurnAngle = 45f;
     public float brakeForce = 10000f;
@@ -77,6 +79,11 @@ public class CarController : MonoBehaviour
                 }
             }
 
+            if(child.tag == "WheelVFX")
+            {
+                wheelsVFX.Add(child.gameObject);
+            }
+
             if (child.name == "Center of mass")
             {
                 Rigidbody rb = GetComponent<Rigidbody>();
@@ -95,35 +102,7 @@ public class CarController : MonoBehaviour
 
         prevPos = transform.position;
     }
-    private void UpdateWheelVisual(WheelCollider wheelCollider, Transform wheelTransform)
-    {
-        Vector3 pos;
-        Quaternion rot;
-        wheelCollider.GetWorldPose(out pos, out rot);
-
-        //wheelTransform.rotation = rot;
-
-        var localRot = (Quaternion.Inverse(wheelCollider.transform.parent.rotation) * Quaternion.Euler(rot.eulerAngles));
-
-        float xRot = localRot.eulerAngles.x;
-        float yRot = localRot.eulerAngles.y;
-        float zRot = wheelZRot;
-
-        if (yRot > 300 || yRot < 60)
-        {
-            yRot += 180;
-            xRot = 180 - xRot;
-        }
-
-        if (wheelCollider.name.Contains("left"))
-        {
-            zRot = -zRot;
-        }
-
-        //wheelTransform.rotation = Quaternion.Euler(rot.eulerAngles.x, rot.eulerAngles.y, zRot);
-
-        wheelTransform.localRotation = Quaternion.Euler(xRot, yRot, zRot);
-    }
+    
     private void FixedUpdate()
     {
         float verticalInput = -Input.GetAxis("Vertical");
@@ -132,11 +111,6 @@ public class CarController : MonoBehaviour
         // calculate speed
         float speedKMH = frontLeftWheelCollider.rpm * wheelRadius * 2 * Mathf.PI * 60 / 1000;
         speedKMH = -speedKMH;
-        //print(speedKMH);
-
-        float dist = (transform.position - prevPos).magnitude;
-        prevPos = transform.position;
-        float speed = dist / Time.fixedDeltaTime;
 
         // forward
         if (speedKMH <= maxSpeed)
@@ -165,7 +139,6 @@ public class CarController : MonoBehaviour
         frontRightWheelCollider.steerAngle = horizontalInput * maxTurnAngle;
 
         // brake
-        //bool isBraking = Input.GetKey(KeyCode.Space) || ((speed) >= 15 && horizontalInput > 0);
         bool isBraking = Input.GetKey(KeyCode.Space);
         float currBreakForce = isBraking ? brakeForce : 0f;
 
@@ -175,9 +148,77 @@ public class CarController : MonoBehaviour
         //frontRightWheelCollider.brakeTorque = currBreakForce;
 
         // update wheels visual
-        this.UpdateWheelVisual(frontLeftWheelCollider, frontLeftWheel.transform);
-        this.UpdateWheelVisual(frontRightWheelCollider, frontRightWheel.transform);
-        this.UpdateWheelVisual(rearLeftWheelCollider, rearLeftWheel.transform);
-        this.UpdateWheelVisual(rearRightWheelCollider, rearRightWheel.transform);
+        CarController.UpdateWheelVisual(frontLeftWheelCollider, frontLeftWheel.transform, wheelZRot);
+        CarController.UpdateWheelVisual(frontRightWheelCollider, frontRightWheel.transform, wheelZRot);
+        CarController.UpdateWheelVisual(rearLeftWheelCollider, rearLeftWheel.transform, wheelZRot);
+        CarController.UpdateWheelVisual(rearRightWheelCollider, rearRightWheel.transform, wheelZRot);
+
+        bool isCarOnGround = frontLeftWheelCollider.isGrounded && frontRightWheelCollider.isGrounded && rearLeftWheelCollider.isGrounded && rearRightWheelCollider.isGrounded;
+        bool isWheelVFXActive = isCarOnGround && (isBraking || CarController.IsDrifting(this.gameObject, prevPos));
+
+        foreach (GameObject wheelVFX in wheelsVFX)
+        {
+            CarController.SetWheelVFXActive(wheelVFX, isWheelVFXActive);
+        }
+
+        prevPos = transform.position;
+    }
+
+    static public void UpdateWheelVisual(WheelCollider wheelCollider, Transform wheelTransform, float wheelZRot)
+    {
+        Vector3 pos;
+        Quaternion rot;
+        wheelCollider.GetWorldPose(out pos, out rot);
+
+        //wheelTransform.rotation = rot;
+
+        var localRot = (Quaternion.Inverse(wheelCollider.transform.parent.rotation) * Quaternion.Euler(rot.eulerAngles));
+
+        float xRot = localRot.eulerAngles.x;
+        float yRot = localRot.eulerAngles.y;
+        float zRot = wheelZRot;
+
+        if (yRot > 300 || yRot < 60)
+        {
+            yRot += 180;
+            xRot = 180 - xRot;
+        }
+
+        if (wheelCollider.name.Contains("left"))
+        {
+            zRot = -zRot;
+        }
+
+        //wheelTransform.rotation = Quaternion.Euler(rot.eulerAngles.x, rot.eulerAngles.y, zRot);
+
+        wheelTransform.localRotation = Quaternion.Euler(xRot, yRot, zRot);
+    }
+
+    public static bool IsDrifting(GameObject car, Vector3 prevPos)
+    {
+        Vector3 speed = (car.transform.position - prevPos).normalized;
+        Vector3 carDirection = -car.transform.forward.normalized;
+
+        float angle = Mathf.Acos(Vector3.Dot(speed, carDirection)) * Mathf.Rad2Deg;
+        float angleThreshold = 30f;
+
+        return angle > angleThreshold && angle < 180 - angleThreshold;
+    }
+
+    public static void SetWheelVFXActive(GameObject wheelVFX, bool isActive)
+    {
+        ParticleSystem particleSystem = wheelVFX.GetComponent<ParticleSystem>();
+
+        if (isActive)
+        {
+            particleSystem.Play();
+        }
+        else
+        {
+            particleSystem.Stop();
+        }
+        
+        TrailRenderer trailRenderer = wheelVFX.GetComponent<TrailRenderer>();
+        trailRenderer.emitting = isActive;
     }
 }
