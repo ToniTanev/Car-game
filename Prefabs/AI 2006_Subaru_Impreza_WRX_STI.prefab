@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 143355199742471038}
   - component: {fileID: 143355199742471039}
   - component: {fileID: 143355199742471036}
+  - component: {fileID: 4897706252408531371}
   m_Layer: 0
   m_Name: AI 2006_Subaru_Impreza_WRX_STI
   m_TagString: Untagged
@@ -89,6 +90,7 @@ MonoBehaviour:
   brakeForce: 10000
   maxSpeed: 100
   minSpeed: 50
+  minPosBasedSpeed: 15
   wheelRadius: 0.2
   is4x4: 1
   wheelZRot: 0
@@ -148,6 +150,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4897706252408531371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143355199742471041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c399fb64446f7e24d932232cea730c47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &793081342602924126
 GameObject:
   m_ObjectHideFlags: 0

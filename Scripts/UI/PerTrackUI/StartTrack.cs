@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class StartTrack : MonoBehaviour
 {
-    private List<GameObject> cars = new List<GameObject>();
-
     private GameObject startTrackPanel;
     private GameObject text1;
     private GameObject text2;
@@ -16,24 +14,6 @@ public class StartTrack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        GameObject[] rootObjs = scene.GetRootGameObjects();
-
-        foreach (GameObject obj in rootObjs)
-        {
-            if (obj.tag == "Car")
-            {
-                cars.Add(obj);
-            }
-        }
-
-        foreach (GameObject car in cars)
-        {
-            //car.SetActive(false);
-        }
-
-        //cars[ChooseCar.currCar].SetActive(true);
-
         foreach (Transform obj in transform)
         {
             if (obj.name == "StartTrackPanel")
@@ -72,12 +52,6 @@ public class StartTrack : MonoBehaviour
         goText.SetActive(false);
 
         StartCoroutine(OnStartTrack());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private IEnumerator OnStartTrack()

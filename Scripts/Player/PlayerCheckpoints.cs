@@ -16,12 +16,6 @@ public class PlayerCheckpoints : MonoBehaviour
         goalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Checkpoint")
@@ -34,8 +28,10 @@ public class PlayerCheckpoints : MonoBehaviour
                 OnPlayerCheckpoint(0 /* not used */);
             }
         }
-        else if (other.tag == "FinishLine" && passedCheckpoints == goalCheckpoints)
+        else if (other.tag == "FinishLine" && passedCheckpoints == goalCheckpoints && !GameState.isGameFinished)
         {
+            GameState.isGameFinished = true;
+
             if (OnPlayerFinish != null)
             {
                 OnPlayerFinish(true);

@@ -1,18 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AIFinish : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private int finishPassedCnt = 0;
 
-    // Update is called once per frame
-    void Update()
+    public static event Action<bool> OnAIFinish;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.tag == "FinishLine")
+        {
+            finishPassedCnt++;
+
+            if (finishPassedCnt == 2 && !GameState.isGameFinished)
+            {
+                GameState.isGameFinished = true;
+
+                if (OnAIFinish != null)
+                {
+                    OnAIFinish(false);
+                }
+            }
+        }
     }
 }

@@ -32,11 +32,6 @@ public class ChooseCar : MonoBehaviour
         cars[currCar].SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void OnStartButton()
     {
         SceneManager.LoadScene(ChooseMap.currTrack);

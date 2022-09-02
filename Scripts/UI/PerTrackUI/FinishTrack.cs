@@ -37,20 +37,16 @@ public class FinishTrack : MonoBehaviour
         defeatText.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnEnable()
     {
         PlayerCheckpoints.OnPlayerFinish += OnGameEnd;
+        AIFinish.OnAIFinish += OnGameEnd;
     }
 
     private void OnDisable()
     {
         PlayerCheckpoints.OnPlayerFinish -= OnGameEnd;
+        AIFinish.OnAIFinish -= OnGameEnd;
     }
 
     private void OnGameEnd(bool playerWon)
