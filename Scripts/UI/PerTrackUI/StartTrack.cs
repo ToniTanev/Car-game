@@ -29,10 +29,10 @@ public class StartTrack : MonoBehaviour
 
         foreach (GameObject car in cars)
         {
-            car.SetActive(false);
+            //car.SetActive(false);
         }
 
-        cars[ChooseCar.currCar].SetActive(true);
+        //cars[ChooseCar.currCar].SetActive(true);
 
         foreach (Transform obj in transform)
         {
