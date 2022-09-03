@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
     private bool isPaused = false;
 
     private GameObject pauseMenu;
+    private GameObject ai;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,8 @@ public class PauseMenu : MonoBehaviour
                 pauseMenu = child.gameObject;
             }
         }
+
+        ai = GameObject.FindGameObjectWithTag("AI");
     }
 
     // Update is called once per frame
@@ -64,6 +67,11 @@ public class PauseMenu : MonoBehaviour
     public void OnRestartButton()
     {
         Time.timeScale = 1f;
+
+        GameState.isGameFinished = false;
+
+        ai.GetComponent<AIFinish>().ResetFinishPasses();
+
         InitScene.LoadCurrentTrack();
     }
     public void OnMenuButton()

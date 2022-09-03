@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4897706252408531371}
   m_Layer: 0
   m_Name: AI 2006_Subaru_Impreza_WRX_STI
-  m_TagString: Untagged
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -22697,7 +22697,7 @@ GameObject:
   - component: {fileID: 1857627966211655492}
   m_Layer: 0
   m_Name: AI Mazda_RX-7_FD
-  m_TagString: Untagged
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

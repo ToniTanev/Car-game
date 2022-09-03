@@ -1751,7 +1751,7 @@ GameObject:
   - component: {fileID: 8957951630329442244}
   m_Layer: 0
   m_Name: AI Nissan_GT-R
-  m_TagString: Untagged
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1825,7 +1825,7 @@ MonoBehaviour:
   brakeForce: 10000
   maxSpeed: 80
   minSpeed: 40
-  minPosBasedSpeed: 15
+  minPosBasedSpeed: 10
   wheelRadius: 0.2
   is4x4: 1
   wheelZRot: 0
