@@ -148,10 +148,6 @@ public class AIController : MonoBehaviour
         //print(relativeVector2D.magnitude);
 
         int nextInx = (currNode + 1) % pathNodes.Count;
-        //float distToChangeNode = 10;
-        //float distToChangeNode = speedKMH / 5;
-        //float distToChangeNode = Mathf.Max(40, speedKMH / 3);
-        float distToChangeNode = 50;
 
         //print(currNode);
         relativeVector2D /= distanceNormalizationFactor;

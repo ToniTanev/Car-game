@@ -22759,16 +22759,16 @@ MonoBehaviour:
   motorForce: 250
   maxTurnAngle: 45
   brakeForce: 10000
-  maxSpeed: 140
-  minSpeed: 80
+  maxSpeed: 120
+  minSpeed: 60
   minPosBasedSpeed: 15
   wheelRadius: 0.2
   is4x4: 1
   wheelZRot: 90
   angleForBreak: 25
   frontBreak: 0
-  maxDistanceForBreak: 100
-  distToChangeNode: 50
+  maxDistanceForBreak: 150
+  distToChangeNode: 25
   distanceNormalizationFactor: 1
   speedToBreakDistanceCurve:
     serializedVersion: 2

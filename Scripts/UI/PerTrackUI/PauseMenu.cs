@@ -64,7 +64,7 @@ public class PauseMenu : MonoBehaviour
     public void OnRestartButton()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(ChooseMap.currTrack);
+        InitScene.LoadCurrentTrack();
     }
     public void OnMenuButton()
     {

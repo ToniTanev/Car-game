@@ -30,4 +30,20 @@ public class InitScene : MonoBehaviour
 
         GameState.isGameFinished = false;
     }
+
+    public static void LoadCurrentTrack()
+    {
+        if(ChooseMap.currTrack == 0)
+        {
+            SceneManager.LoadScene(Constants.track1Index);
+        }
+        else if (ChooseMap.currTrack == 1)
+        {
+            SceneManager.LoadScene(Constants.track2Index);
+        }
+        else if (ChooseMap.currTrack == 2)
+        {
+            SceneManager.LoadScene(Constants.track3Index);
+        }
+    }
 }

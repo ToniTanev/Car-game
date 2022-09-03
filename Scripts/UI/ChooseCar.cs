@@ -34,7 +34,7 @@ public class ChooseCar : MonoBehaviour
 
     public void OnStartButton()
     {
-        SceneManager.LoadScene(ChooseMap.currTrack);
+        InitScene.LoadCurrentTrack();
     }
 
     public void OnCarButton()
